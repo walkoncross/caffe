@@ -1,6 +1,9 @@
 @echo off
 @setlocal EnableDelayedExpansion
 
+set BUILD_MATLAB=1
+set WITH_NINJA=0
+
 :: Default values
 if DEFINED APPVEYOR (
     echo Setting Appveyor defaults
@@ -22,11 +25,13 @@ if DEFINED APPVEYOR (
 
     :: Set python 2.7 with conda as the default python
     if !PYTHON_VERSION! EQU 2 (
-        set CONDA_ROOT=C:\Miniconda-x64
+        ::set CONDA_ROOT=C:\Miniconda-x64
+		set CONDA_ROOT=C:\Anaconda2
     )
     :: Set python 3.5 with conda as the default python
     if !PYTHON_VERSION! EQU 3 (
-        set CONDA_ROOT=C:\Miniconda35-x64
+        ::set CONDA_ROOT=C:\Miniconda35-x64
+		set CONDA_ROOT=C:\Anaconda2\envs\py35
     )
     set PATH=!CONDA_ROOT!;!CONDA_ROOT!\Scripts;!CONDA_ROOT!\Library\bin;!PATH!
 
@@ -154,6 +159,8 @@ pushd build
 set batch_file=!VS%MSVC_VERSION%0COMNTOOLS!..\..\VC\vcvarsall.bat
 call "%batch_file%" amd64
 
+echo start cmake
+
 :: Configure using cmake and using the caffe-builder dependencies
 :: Add -DCUDNN_ROOT=C:/Projects/caffe/cudnn-8.0-windows10-x64-v5.1/cuda ^
 :: below to use cuDNN
@@ -169,8 +176,11 @@ cmake -G"!CMAKE_GENERATOR!" ^
       -DINSTALL_PREREQUISITES:BOOL=1 ^
       -DUSE_NCCL:BOOL=!USE_NCCL! ^
       -DCUDA_ARCH_NAME:STRING=%CUDA_ARCH_NAME% ^
+	  -DCUDNN_ROOT="C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0" ^
       "%~dp0\.."
 
+echo end cmake
+	  
 if ERRORLEVEL 1 (
   echo ERROR: Configure failed
   exit /b 1
