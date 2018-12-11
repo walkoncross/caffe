@@ -428,7 +428,6 @@ message LayerParameter {
   optional WingLossParameter wing_loss_param = 150;
   optional Coord2heatmapParameter coord_2_heatmap_param = 151;
   optional HeatmapLossParameter heatmap_loss_param = 152;
-
 }
 
 // Message that stores parameters used to apply transformation
