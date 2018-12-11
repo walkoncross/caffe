@@ -1,7 +1,7 @@
 #include <vector>
 #include <limits>
 
-#include "caffe/layers/heatmap2coord.hpp"
+#include "caffe/layers/Heatmap2Coord.hpp"
 
 namespace caffe {
 
@@ -32,7 +32,7 @@ __global__ void H2C_kernel(const int n, const Dtype* input,
 }
 
 template <typename Dtype>
-void Heatmap2coordLayer<Dtype>::Forward_gpu(const vector<Blob<Dtype>*>& bottom,
+void Heatmap2CoordLayer<Dtype>::Forward_gpu(const vector<Blob<Dtype>*>& bottom,
     const vector<Blob<Dtype>*>& top) {
   const Dtype* bottom_data = bottom[0]->cpu_data();
   Dtype* top_data = top[0]->mutable_cpu_data();
