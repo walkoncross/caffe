@@ -1,7 +1,7 @@
 #include <vector>
 #include <limits>
 
-#include "caffe/layers/heatmap2coord.hpp"
+#include "caffe/layers/heatmap2coord_layer.hpp"
 
 namespace caffe
 {
@@ -17,7 +17,9 @@ template <typename Dtype>
 void Heatmap2CoordLayer<Dtype>::Reshape(const vector<Blob<Dtype> *> &bottom,
                                         const vector<Blob<Dtype> *> &top)
 {
-  top[0]->Reshape(bottom[0]->shape(0), bottom[0]->shape(1) * 2);
+  vector<int> top_shape(bottom[0]->shape(0), bottom[0]->shape(1) * 2);
+
+  top[0]->Reshape(top_shape);
 }
 
 template <typename Dtype>
@@ -30,9 +32,9 @@ void Heatmap2CoordLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
   const int w = bottom[0]->shape(3);
   int argmax_h = -1;
   int argmax_w = -1;
-  Dtype max_val = std::numberic_limits<Dtype>::min();
+  Dtype max_val = std::numeric_limits<Dtype>::min();
   Dtype tmp_val;
-  // int batch_size = bottom[0]->shape(0);
+  int batch_size = bottom[0]->shape(0);
 
   for (int bi = 0; bi < batch_size; ++bi)
   {
@@ -42,7 +44,7 @@ void Heatmap2CoordLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
       {
         for (int wi = 0; wi < w; ++wi)
         {
-          tmp_val = bottom_data[bottom_data[0]->offset(bi, p_idx, hi, wi)];
+          tmp_val = bottom_data[0]->offset(bi, p_idx, hi, wi);
           if (tmp_val > max_val)
           {
             max_val = tmp_val;

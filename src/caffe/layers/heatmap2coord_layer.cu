@@ -1,7 +1,7 @@
 #include <vector>
 #include <limits>
 
-#include "caffe/layers/heatmap2coord.hpp"
+#include "caffe/layers/heatmap2coord_layer.hpp"
 
 namespace caffe {
 
@@ -38,10 +38,10 @@ void Heatmap2CoordLayer<Dtype>::Forward_gpu(const vector<Blob<Dtype>*>& bottom,
   Dtype* top_data = top[0]->mutable_cpu_data();
   const int h = bottom[0]->shape(2);
   const int w = bottom[0]->shape(3);
-  Dtype max_val = std::numberic_limits<Dtype>::min();
-  const int n = bottom[0]->count(0, 2);
+  Dtype max_val = std::numeric_limits<Dtype>::min();
+  const int count = bottom[0]->count(0, 2);
   H2C_kernel<Dtype><<<CAFFE_GET_BLOCKS(count), CAFFE_CUDA_NUM_THREADS>>>(
-    n, bottom[0]->gpu_data(), top[0]->mutable_gpu_data(), num_points_,
+    count, bottom[0]->gpu_data(), top[0]->mutable_gpu_data(), num_points_,
     h, w, max_val);  
 }
 

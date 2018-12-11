@@ -9,20 +9,20 @@ template <typename Dtype>
 void Coord2HeatmapLayer<Dtype>::LayerSetUp(const vector<Blob<Dtype> *> &bottom,
                                            const vector<Blob<Dtype> *> &top)
 {
-  output_height_ = this->layer_param_.Coord2Heatmap_param().height();
+  output_height_ = this->layer_param_.coord2heatmap_param().height();
   CHECK_GT(output_height_, 0) << "Coord2HeatmapLayer height must be positive.";
-  output_width_ = this->layer_param_.Coord2Heatmap_param().width();
+  output_width_ = this->layer_param_.coord2heatmap_param().width();
   CHECK_GT(output_width_, 0) << "Coord2HeatmapLayer width must be positive.";
-  num_points_ = this->layer_param_.Coord2Heatmap_param().num_points();
+  num_points_ = this->layer_param_.coord2heatmap_param().num_points();
   CHECK_GT(num_points_, 0) << "Coord2HeatmapLayer num_points must be positive.";
   // LOG(INFO) << bottom[0]->shape_string();
   int bottom_points = bottom[0]->shape(1) / 2;
   CHECK_LE(num_points_, bottom_points) << "Coord2HeatmapLayer num_points must "
                                           "be less or equal to number of inputs points.";
-  max_value_ = this->layer_param_.Coord2Heatmap_param().max_value();
+  max_value_ = this->layer_param_.coord2heatmap_param().max_value();
   CHECK_GE(max_value_, 1) << "Coord2HeatmapLayer max_value must be greater "
                              "or equal to 1";
-  radius_ = this->layer_param_.Coord2Heatmap_param().radius();
+  radius_ = this->layer_param_.coord2heatmap_param().radius();
   if (radius_ != 1)
     CHECK_EQ(radius_, 5) << "Only support radius 5, you can set radius to 1"
                             "to not use gaussian blur.";
