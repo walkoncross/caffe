@@ -1,7 +1,7 @@
 #include <vector>
 #include <limits>
 
-#include "caffe/layers/Heatmap2Coord.hpp"
+#include "caffe/layers/heatmap2coord.hpp"
 
 namespace caffe {
 
