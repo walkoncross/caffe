@@ -7,7 +7,7 @@ namespace caffe
 {
 
 template <typename Dtype>
-void Heatmap2CoordLayer<Dtype>::LayerSetup(const vector<Blob<Dtype> *> &bottom,
+void Heatmap2CoordLayer<Dtype>::LayerSetUp(const vector<Blob<Dtype> *> &bottom,
                                            const vector<Blob<Dtype> *> &top)
 {
   num_points_ = bottom[0]->shape(1);
@@ -44,7 +44,7 @@ void Heatmap2CoordLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
       {
         for (int wi = 0; wi < w; ++wi)
         {
-          tmp_val = bottom_data[0]->offset(bi, p_idx, hi, wi);
+          tmp_val = bottom[0]->offset(bi, p_idx, hi, wi);
           if (tmp_val > max_val)
           {
             max_val = tmp_val;

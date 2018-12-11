@@ -45,6 +45,7 @@ void Heatmap2CoordLayer<Dtype>::Forward_gpu(const vector<Blob<Dtype>*>& bottom,
     h, w, max_val);  
 }
 
-INSTANTIATE_LAYER_GPU_FUNCS(Heatmap2CoordLayer);
+// INSTANTIATE_LAYER_GPU_FUNCS(Heatmap2CoordLayer);
+INSTANTIATE_LAYER_GPU_FORWARD(Heatmap2CoordLayer);
 
 }
